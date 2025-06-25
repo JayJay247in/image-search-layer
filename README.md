@@ -132,5 +132,3 @@ When deploying:
 *   If using MongoDB Atlas, ensure your deployed server's IP address (or `0.0.0.0/0` to allow all) is added to the IP Access List in Atlas.
 
 ---
-
-This README provides a good starting point. You can customize it further by adding sections like "Project Structure," "Contributing," or "License" if needed.
