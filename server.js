@@ -1,22 +1,28 @@
 // server.js
-require('dotenv').config(); // Load environment variables from .env file
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const axios = require('axios');
 const cors = require('cors');
-const SearchTerm = require('./models/SearchTerm'); // Import the Mongoose model
+const SearchTerm = require('./models/SearchTerm');
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+const app = express(); // Keep this
+// const PORT = process.env.PORT || 3000; // Not needed for Netlify functions
 const PIXABAY_API_KEY = process.env.PIXABAY_API_KEY;
 const MONGODB_URI = process.env.MONGODB_URI;
 
 // Middleware
-app.use(cors()); // Enable CORS for all routes
-app.use(express.json()); // For parsing application/json (though not strictly needed for these GET requests)
+app.use(cors());
+app.use(express.json());
 
 // --- Database Connection ---
-mongoose.connect(MONGODB_URI)
+mongoose.connect(MONGODB_URI) // Removed deprecated options
+  .then(() => console.log('Successfully connected to MongoDB'))
+  .catch(err => {
+    console.error('Error connecting to MongoDB:', err.message);
+    // In a serverless environment, you might not want to process.exit(1)
+    // Let the function invocation fail and log the error.
+  });
 
 // --- API Routes ---
 
@@ -115,9 +121,5 @@ app.get('/', (req, res) => {
 // Serve static files from 'public' directory
 app.use(express.static('public'));
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-  console.log(`Image search: http://localhost:${PORT}/query/:searchString?page=1`);
-  console.log(`Recent searches: http://localhost:${PORT}/recent/`);
-});
+// --- EXPORT THE EXPRESS APP ---
+module.exports = app;

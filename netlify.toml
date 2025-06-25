@@ -1,0 +1,29 @@
+[build]
+  # This command will be run in Netlify's build environment.
+  # It ensures your dependencies (express, mongoose, etc.) are installed for the function.
+  command = "npm install"
+  functions = "netlify/functions" # Directory where your Netlify functions live
+  # If you have a 'public' folder with an index.html, specify it:
+  # publish = "public"
+  # If your API is the ONLY thing, you might not need a publish dir,
+  # or you can point it to a dummy one if Netlify requires it.
+  # For now, let's assume you might add a simple index.html later in 'public'.
+  publish = "public" # Create an empty 'public' folder if you don't have one yet.
+
+# Redirect all API-like requests to your serverless function.
+# The 'api' in '/.netlify/functions/api' matches the filename 'api.js'.
+[[redirects]]
+  from = "/query/*"
+  to = "/.netlify/functions/api/query/:splat" # :splat captures the rest of the path
+  status = 200 # This makes it act like a rewrite, not a 301/302 redirect
+
+[[redirects]]
+  from = "/recent/*"
+  to = "/.netlify/functions/api/recent/:splat" # If your /recent/ route needs params, otherwise just /recent/
+  status = 200
+
+# Optional: If you want your root path "/" to also be handled by your Express app's root route
+[[redirects]]
+  from = "/"
+  to = "/.netlify/functions/api/"
+  status = 200
