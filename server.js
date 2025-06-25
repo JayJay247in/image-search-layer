@@ -15,6 +15,9 @@ const MONGODB_URI = process.env.MONGODB_URI;
 app.use(cors());
 app.use(express.json());
 
+
+console.log("NETLIFY DEBUG: MONGODB_URI received:", process.env.MONGODB_URI);
+
 // --- Database Connection ---
 mongoose.connect(MONGODB_URI) // Removed deprecated options
   .then(() => console.log('Successfully connected to MongoDB'))
