@@ -31,7 +31,7 @@ Before you begin, ensure you have met the following requirements:
 
 1.  **Clone the repository (if you have one):**
     ```bash
-    git clone <your-repository-url>
+    git clone https://github.com/JayJay247in/image-search-layer.git
     cd image-search-abstraction-layer
     ```
 
